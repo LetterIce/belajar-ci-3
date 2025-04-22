@@ -1,68 +1,93 @@
-# CodeIgniter 4 Application Starter
+# CodeIgniter 4 - Otentikasi Dasar & Dasbor Berbasis Peran
 
-## What is CodeIgniter?
+Proyek ini adalah aplikasi web sederhana yang dibangun dengan **CodeIgniter 4** sebagai bagian dari Ujian Tengah Semester (UTS) mata kuliah Pemrograman Web Lanjut. Proyek ini mendemonstrasikan konsep-konsep fundamental meliputi otentikasi pengguna (login/logout), manajemen sesi, kontrol akses berbasis peran untuk dua jenis pengguna berbeda (Admin dan User), serta tampilan dasbor terpisah berdasarkan peran pengguna.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## Fitur
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+*   **Otentikasi Pengguna:** Halaman login yang aman, menerima nama pengguna (username) dan kata sandi (password).
+*   **Kredensial Hardcode:** Data pengguna (username, password yang sudah di-hash, peran) disimpan langsung di `AuthController` untuk kesederhanaan (sesuai persyaratan).
+*   **Keamanan Kata Sandi:** Kata sandi di-hash menggunakan `password_hash()` bawaan PHP (bcrypt) dan diverifikasi dengan `password_verify()`. Penggunaan MD5/SHA1 secara eksplisit dihindari.
+*   **Manajemen Sesi:** ID pengguna, username, dan peran disimpan dalam sesi setelah login berhasil.
+*   **Kontrol Akses Berbasis Peran:**
+    *   Rute dasbor terpisah (`/admin` dan `/user`).
+    *   Filter (`AuthFilter`, `AdminFilter`, `UserFilter`) digunakan untuk melindungi rute:
+        *   Memastikan hanya pengguna yang sudah login yang dapat mengakses dasbor.
+        *   Memastikan hanya pengguna dengan peran 'admin' yang dapat mengakses `/admin`.
+        *   Memastikan hanya pengguna dengan peran 'user' yang dapat mengakses `/user`.
+*   **Tampilan Dasbor:** Dasbor sederhana yang berbeda untuk peran Admin dan User, menampilkan informasi dasar pengguna (username, peran) yang diambil dari sesi.
+*   **Templating Layout Dasar:** Menggunakan sistem layout view CodeIgniter (`$this->extend`, `$this->section`, `$this->include`) untuk header/footer yang konsisten di seluruh halaman dasbor.
+*   **Fungsionalitas Logout:** Menghancurkan sesi pengguna dan mengarahkan kembali ke halaman login.
+*   **Routing Berbasis Controller:** Rute didefinisikan dalam `app/Config/Routes.php` yang memetakan URL ke metode Controller tertentu.
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## Teknologi yang Digunakan
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+*   **PHP:** Versi 8.1 atau lebih tinggi direkomendasikan
+*   **CodeIgniter:** Versi 4.x (Dikembangkan secara spesifik dengan 4.6.0)
+*   **Composer:** Untuk manajemen dependensi
 
-## Installation & updates
+## Pengaturan dan Instalasi
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+1.  **Clone Repositori:**
+    ```bash
+    git clone <url-repositori-anda>
+    cd <nama-folder-repositori>
+    ```
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+2.  **Instal Dependensi:**
+    ```bash
+    composer install
+    ```
 
-## Setup
+3.  **Konfigurasi Lingkungan (Environment):**
+    *   Salin contoh file environment:
+        ```bash
+        cp env .env
+        ```
+        *(Jika Anda memiliki file `env`. Jika tidak, buat file `.env` secara manual berdasarkan variabel yang dibutuhkan di bawah)*
+    *   Edit file `.env` dan pastikan variabel berikut diatur dengan benar:
+        ```dotenv
+        CI_ENVIRONMENT = development
+        app.baseURL = 'http://localhost:8080' # Atau URL lokal pilihan Anda
+        # Pastikan variabel sesi dikonfigurasi jika perlu (pengaturan default biasanya sudah cukup)
+        # session.driver = 'CodeIgniter\Session\Handlers\FileHandler'
+        # session.savePath = WRITEPATH . 'session'
+        ```
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+4.  **Atur Kunci Aplikasi (Disarankan):**
+    Buat kunci aplikasi unik untuk keamanan:
+    ```bash
+    php spark key:generate
+    ```
 
-## Important Change with index.php
+## Menjalankan Proyek
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+1.  **Jalankan Server Pengembangan:**
+    ```bash
+    php spark serve
+    ```
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+2.  **Akses Aplikasi:**
+    Buka browser web Anda dan arahkan ke URL yang diberikan oleh perintah `serve` (biasanya `http://localhost:8080`).
 
-**Please** read the user guide for a better explanation of how CI4 works!
+## Kredensial untuk Login
 
-## Repository Management
+Gunakan kredensial berikut (didefinisikan dalam `app/Controllers/AuthController.php`) untuk menguji aplikasi:
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+*   **Admin:**
+    *   Nama Pengguna: `admin`
+    *   Kata Sandi: `adminpass`
+*   **User:**
+    *   Nama Pengguna: `user`
+    *   Kata Sandi: `userpass`
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+## Struktur Proyek Utama
 
-## Server Requirements
+*   `app/Controllers/`: Berisi `AuthController.php` (menangani login/logout) dan `DashboardController.php` (menangani penampilan dasbor).
+*   `app/Views/`: Berisi `login.php`, `admin_dashboard.php`, `user_dashboard.php`, dan folder `layouts/` dengan `main.php`, `header.php`, `footer.php`.
+*   `app/Filters/`: Berisi `AuthFilter.php`, `AdminFilter.php`, dan `UserFilter.php` untuk kontrol akses.
+*   `app/Config/`: Berisi `Routes.php` yang dimodifikasi (definisi rute) dan `Filters.php` (alias filter dan penerapannya).
+*   `.env`: Konfigurasi environment lokal (database, base URL, mode environment).
 
-PHP version 8.1 or higher is required, with the following extensions installed:
+---
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
-
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - If you are still using PHP 7.4 or 8.0, you should upgrade immediately.
-> - The end of life date for PHP 8.1 will be December 31, 2025.
-
-Additionally, make sure that the following extensions are enabled in your PHP:
-
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+README ini menyediakan gambaran umum yang komprehensif untuk memahami, mengatur, dan menjalankan proyek.
