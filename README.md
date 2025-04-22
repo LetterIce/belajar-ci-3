@@ -1,4 +1,4 @@
-# CodeIgniter 4 - Otentikasi Dasar & Dasbor Berbasis Peran
+# CodeIgniter 4 - Otentikasi Dasar Berbasis Peran (Role)
 
 Proyek ini adalah aplikasi web sederhana yang dibangun dengan **CodeIgniter 4** sebagai bagian dari Ujian Tengah Semester (UTS) mata kuliah Pemrograman Web Lanjut. Proyek ini mendemonstrasikan konsep-konsep fundamental meliputi otentikasi pengguna (login/logout), manajemen sesi, kontrol akses berbasis peran untuk dua jenis pengguna berbeda (Admin dan User), serta tampilan dasbor terpisah berdasarkan peran pengguna.
 
@@ -89,5 +89,3 @@ Gunakan kredensial berikut (didefinisikan dalam `app/Controllers/AuthController.
 *   `.env`: Konfigurasi environment lokal (database, base URL, mode environment).
 
 ---
-
-README ini menyediakan gambaran umum yang komprehensif untuk memahami, mengatur, dan menjalankan proyek.
