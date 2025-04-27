@@ -38,7 +38,7 @@ class Filters extends BaseFilters
         'performance'   => PerformanceMetrics::class,
         'auth'          => AuthFilter::class,
         'admin'         => AdminFilter::class,
-        'user'          =>  UserFilter::class,
+        'user'          => UserFilter::class,
     ];
 
     /**
