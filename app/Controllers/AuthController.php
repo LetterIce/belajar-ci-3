@@ -7,33 +7,30 @@ use CodeIgniter\HTTP\ResponseInterface;
 
 class AuthController extends BaseController
 {
-    // Hardcoded user data (Requirement 4)
-    // In a real app, fetch this from a database
+    // Data pengguna yang sudah ditetapkan
     private $users = [
         'admin' => [
             'id' => 1,
-            'username' => 'admin',
-            // Generate hash using: echo password_hash('adminpass', PASSWORD_DEFAULT);
-            'password_hash' => '$2a$12$bgOkvly8/SHA9xR7CYk/h.2KMBjXbNDNYNn4NeVIPfZCciTZMzFla', // Hashed 'adminpass'
+            'username' => 'andy',
+            'password_hash' => '$2a$12$FtntWwwClt9jeMaTLmw6neviSwcYOsE47kjEPgY6WDG8LLfEVlzGu', // Hash 'andy123'
             'role' => 'admin'
         ],
         'user' => [
             'id' => 2,
-            'username' => 'user',
-             // Generate hash using: echo password_hash('userpass', PASSWORD_DEFAULT);
-            'password_hash' => '$2a$12$.a0wUnKezGEOqI2baDoyeeRqzl.c9Sne9DiYAMT/wWwlV3GbEY8nS', // Hashed 'userpass'
+            'username' => 'budi',
+            'password_hash' => '$2a$12$R5KA13UPCQz0IYkt3lsRGOPpDehCgHztx9syGbCgGNjLKl8EJgAEe', // Hash 'budi123'
             'role' => 'user'
         ]
     ];
 
     public function login()
     {
-        // If already logged in, redirect to dashboard
+        // Jika sudah login, alihkan ke dashboard
         if (session()->get('isLoggedIn')) {
             $role = session()->get('role');
             return redirect()->to('/' . $role);
         }
-        // Show the login view
+        // Tampilkan halaman login
         return view('login');
     }
 
@@ -43,7 +40,7 @@ class AuthController extends BaseController
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
 
-        // Find user by username
+        // Cari pengguna berdasarkan username
         $user = null;
         foreach ($this->users as $userData) {
             if ($userData['username'] === $username) {
@@ -52,9 +49,9 @@ class AuthController extends BaseController
             }
         }
 
-        // Verify user and password (Requirement 4)
+        // Verifikasi pengguna dan kata sandi (Persyaratan 4)
         if ($user && password_verify($password, $user['password_hash'])) {
-            // Set session data (Requirement 4)
+            // Atur data sesi (Persyaratan 4)
             $sessionData = [
                 'user_id' => $user['id'],
                 'username' => $user['username'],
@@ -63,14 +60,14 @@ class AuthController extends BaseController
             ];
             $session->set($sessionData);
 
-            // Redirect based on role (Requirement 4)
+            // Alihkan berdasarkan peran (Persyaratan 4)
             if ($user['role'] === 'admin') {
                 return redirect()->to('/admin');
             } else {
                 return redirect()->to('/user');
             }
         } else {
-            // Set flash message for error and redirect back to login
+            // Atur pesan flash untuk kesalahan dan kembali ke halaman login
             $session->setFlashdata('error', 'Invalid username or password.');
             return redirect()->to('/');
         }
@@ -78,7 +75,7 @@ class AuthController extends BaseController
 
     public function logout()
     {
-        session()->destroy(); // Destroy session data
-        return redirect()->to('/'); // Redirect to login page
+        session()->destroy(); // Hapus data sesi
+        return redirect()->to('/'); // Alihkan ke halaman login
     }
 }
