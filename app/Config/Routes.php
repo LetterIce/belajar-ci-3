@@ -2,69 +2,35 @@
 
 namespace Config;
 
-// Create a new instance of our RouteCollection class.
 $routes = Services::routes();
 
 /*
  * --------------------------------------------------------------------
- * Router Setup
+ * Pengaturan Router
  * --------------------------------------------------------------------
  */
 $routes->setDefaultNamespace('App\Controllers');
-$routes->setDefaultController('AuthController'); // Change default controller
-$routes->setDefaultMethod('login');           // Default method for AuthController
+$routes->setDefaultController('AuthController'); // controller default
+$routes->setDefaultMethod('login');           // Metode default untuk AuthController
 $routes->setTranslateURIDashes(false);
 $routes->set404Override();
-// The Auto Routing (Legacy) is very dangerous. It is easy to create vulnerable apps
-// where controller filters or CSRF protection are bypassed.
-// If you don't want to define all routes, please use the Auto Routing (Improved).
-// Set `$autoRoutesImproved` to true in `app/Config/Feature.php` and set the following to true.
-// $routes->setAutoRoute(false); // Disable default auto routing for security
 
-/*
- * --------------------------------------------------------------------
- * Route Definitions
- * --------------------------------------------------------------------
- */
+$routes->get('/', 'AuthController::login'); 
+$routes->post('/login/process', 'AuthController::processLogin'); 
+$routes->get('/logout', 'AuthController::logout'); 
 
-// We get a performance increase by specifying the default
-// route since we don't have to scan directories.
-
-// Login Routes
-$routes->get('/', 'AuthController::login'); // Show login form
-$routes->post('/login/process', 'AuthController::processLogin'); // Handle login submission
-$routes->get('/logout', 'AuthController::logout'); // Handle logout
-
-// Dashboard Routes (Protected by Filters - defined later)
-// Group routes that require authentication
 $routes->group('', ['filter' => 'auth'], static function ($routes) {
-    // Admin specific routes - also add admin filter
+    // Rute khusus admin - juga menambahkan filter admin
     $routes->group('admin', ['filter' => 'admin'], static function ($routes) {
         $routes->get('/', 'DashboardController::adminDashboard');
-        // Add other admin-specific routes here if needed
     });
-
-    // User specific routes - also add user filter
+    // Rute khusus pengguna - juga menambahkan filter pengguna
     $routes->group('user', ['filter' => 'user'], static function ($routes) {
          $routes->get('/', 'DashboardController::userDashboard');
-         // Add other user-specific routes here if needed
     });
 });
 
 
-/*
- * --------------------------------------------------------------------
- * Additional Routing
- * --------------------------------------------------------------------
- *
- * There will often be times that you need additional routing and you
- * need it to be able to override any defaults in this file. Environment
- * based routes is one such time. require() additional route files here
- * to make that happen.
- *
- * You will have access to the $routes object within that file without
- * needing to reload it.
- */
 if (is_file(APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php')) {
     require APPPATH . 'Config/' . ENVIRONMENT . '/Routes.php';
 }
