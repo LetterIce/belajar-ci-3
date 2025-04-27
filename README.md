@@ -5,8 +5,8 @@ Proyek ini adalah aplikasi web sederhana yang dibangun dengan **CodeIgniter 4** 
 ## Fitur
 
 *   **Otentikasi Pengguna:** Halaman login yang aman, menerima nama pengguna (username) dan kata sandi (password).
-*   **Kredensial Hardcode:** Data pengguna (username, password yang sudah di-hash, peran) disimpan langsung di `AuthController` untuk kesederhanaan (sesuai persyaratan).
-*   **Keamanan Kata Sandi:** Kata sandi di-hash menggunakan `password_hash()` bawaan PHP (bcrypt) dan diverifikasi dengan `password_verify()`. Penggunaan MD5/SHA1 secara eksplisit dihindari.
+*   **Kredensial Hardcode:** Data pengguna (username, password yang sudah di-hash, peran) disimpan langsung di `AuthController`.
+*   **Keamanan Kata Sandi:** Kata sandi di-hash menggunakan `password_hash()` bawaan PHP (bcrypt) dan diverifikasi dengan `password_verify()`.
 *   **Manajemen Sesi:** ID pengguna, username, dan peran disimpan dalam sesi setelah login berhasil.
 *   **Kontrol Akses Berbasis Peran:**
     *   Rute dasbor terpisah (`/admin` dan `/user`).
@@ -19,7 +19,7 @@ Proyek ini adalah aplikasi web sederhana yang dibangun dengan **CodeIgniter 4** 
 *   **Fungsionalitas Logout:** Menghancurkan sesi pengguna dan mengarahkan kembali ke halaman login.
 *   **Routing Berbasis Controller:** Rute didefinisikan dalam `app/Config/Routes.php` yang memetakan URL ke metode Controller tertentu.
 
-## Teknologi yang Digunakan
+## Requirement
 
 *   **PHP:** Versi 8.1 atau lebih tinggi direkomendasikan
 *   **CodeIgniter:** Versi 4.x (Dikembangkan secara spesifik dengan 4.6.0)
@@ -29,8 +29,8 @@ Proyek ini adalah aplikasi web sederhana yang dibangun dengan **CodeIgniter 4** 
 
 1.  **Clone Repositori:**
     ```bash
-    git clone <url-repositori-anda>
-    cd <nama-folder-repositori>
+    git clone <https://github.com/LetterIce/belajar-ci-3>
+    cd <belajar-ci-3>
     ```
 
 2.  **Instal Dependensi:**
@@ -39,27 +39,14 @@ Proyek ini adalah aplikasi web sederhana yang dibangun dengan **CodeIgniter 4** 
     ```
 
 3.  **Konfigurasi Lingkungan (Environment):**
-    *   Salin contoh file environment:
-        ```bash
-        cp env .env
-        ```
-        *(Jika Anda memiliki file `env`. Jika tidak, buat file `.env` secara manual berdasarkan variabel yang dibutuhkan di bawah)*
+        *(Jika Anda memiliki file `env`. Jika tidak, buat file `.env` secara manual)*
     *   Edit file `.env` dan pastikan variabel berikut diatur dengan benar:
-        ```dotenv
+        ```.env
         CI_ENVIRONMENT = development
         app.baseURL = 'http://localhost:8080' # Atau URL lokal pilihan Anda
-        # Pastikan variabel sesi dikonfigurasi jika perlu (pengaturan default biasanya sudah cukup)
-        # session.driver = 'CodeIgniter\Session\Handlers\FileHandler'
-        # session.savePath = WRITEPATH . 'session'
         ```
 
-4.  **Atur Kunci Aplikasi (Disarankan):**
-    Buat kunci aplikasi unik untuk keamanan:
-    ```bash
-    php spark key:generate
-    ```
-
-## Menjalankan Proyek
+## Menjalankan Program
 
 1.  **Jalankan Server Pengembangan:**
     ```bash
@@ -67,20 +54,20 @@ Proyek ini adalah aplikasi web sederhana yang dibangun dengan **CodeIgniter 4** 
     ```
 
 2.  **Akses Aplikasi:**
-    Buka browser web Anda dan arahkan ke URL yang diberikan oleh perintah `serve` (biasanya `http://localhost:8080`).
+    Buka browser web dan arahkan ke URL yang diberikan oleh perintah `serve` (`http://localhost:8080`).
 
 ## Kredensial untuk Login
 
 Gunakan kredensial berikut (didefinisikan dalam `app/Controllers/AuthController.php`) untuk menguji aplikasi:
 
 *   **Admin:**
-    *   Nama Pengguna: `admin`
-    *   Kata Sandi: `adminpass`
+    *   Nama Pengguna: `andy`
+    *   Kata Sandi: `andy123`
 *   **User:**
-    *   Nama Pengguna: `user`
-    *   Kata Sandi: `userpass`
+    *   Nama Pengguna: `budi`
+    *   Kata Sandi: `budi123`
 
-## Struktur Proyek Utama
+## Struktur Utama
 
 *   `app/Controllers/`: Berisi `AuthController.php` (menangani login/logout) dan `DashboardController.php` (menangani penampilan dasbor).
 *   `app/Views/`: Berisi `login.php`, `admin_dashboard.php`, `user_dashboard.php`, dan folder `layouts/` dengan `main.php`, `header.php`, `footer.php`.
