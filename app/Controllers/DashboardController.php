@@ -10,30 +10,24 @@ class DashboardController extends BaseController
     public function adminDashboard()
     {
         $session = session();
-        // Prepare data for the view (Requirement 5)
+        // Persiapkan data untuk tampilan
         $data = [
             'pageTitle' => 'Admin Dashboard',
             'username' => $session->get('username'),
-            'role' => $session->get('role'),
-            'extraAdminInfo' => 'This is some specific information only for admins.'
-            // You can add more admin-specific data here
+            'role' => $session->get('role')
         ];
-        // Load the view, passing data
         return view('admin_dashboard', $data);
     }
 
     public function userDashboard()
     {
          $session = session();
-         // Prepare data for the view (Requirement 5)
+         // Persiapkan data untuk tampilan
          $data = [
             'pageTitle' => 'User Dashboard',
             'username' => $session->get('username'),
-            'role' => $session->get('role'),
-            'extraUserInfo' => 'Welcome, valued user! Here is your specific content.'
-             // You can add more user-specific data here
+            'role' => $session->get('role')
          ];
-        // Load the view, passing data
          return view('user_dashboard', $data);
     }
 }
