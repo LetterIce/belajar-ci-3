@@ -14,8 +14,6 @@ class UserFilter implements FilterInterface
         if (session()->get('role') !== 'user') {
              return redirect()->to('/admin'); // Alihkan non-pengguna (admin) ke halaman lain
         }
-         // Jika pengguna, lanjutkan
-        return $request;
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null){}
