@@ -49,9 +49,9 @@ class AuthController extends BaseController
             }
         }
 
-        // Verifikasi pengguna dan kata sandi (Persyaratan 4)
+        // Verifikasi pengguna dan kata sandi 
         if ($user && password_verify($password, $user['password_hash'])) {
-            // Atur data sesi (Persyaratan 4)
+            // Atur data sesi 
             $sessionData = [
                 'user_id' => $user['id'],
                 'username' => $user['username'],
@@ -60,7 +60,7 @@ class AuthController extends BaseController
             ];
             $session->set($sessionData);
 
-            // Alihkan berdasarkan peran (Persyaratan 4)
+            // Alihkan berdasarkan peran
             if ($user['role'] === 'admin') {
                 return redirect()->to('/admin');
             } else {
