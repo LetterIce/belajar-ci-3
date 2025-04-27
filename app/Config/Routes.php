@@ -11,9 +11,7 @@ $routes = Services::routes();
  */
 $routes->setDefaultNamespace('App\Controllers');
 $routes->setDefaultController('AuthController'); // controller default
-$routes->setDefaultMethod('login');           // Metode default untuk AuthController
-$routes->setTranslateURIDashes(false);
-$routes->set404Override();
+$routes->setDefaultMethod('login'); // Metode default untuk AuthController
 
 $routes->get('/', 'AuthController::login'); 
 $routes->post('/login/process', 'AuthController::processLogin'); 
