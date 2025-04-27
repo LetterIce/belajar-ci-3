@@ -10,19 +10,13 @@ class UserFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        // Assumes AuthFilter has already run
-        // Check if the logged-in user's role is 'user'
+        // Periksa apakah peran pengguna yang login adalah 'user'
         if (session()->get('role') !== 'user') {
-             // If not a 'user' (might be admin trying to access user-only page), redirect to admin dashboard
-             session()->setFlashdata('error', 'You do not have permission to access this user page.');
-             return redirect()->to('/admin'); // Redirect non-users (admins) away
+             return redirect()->to('/admin'); // Alihkan non-pengguna (admin) ke halaman lain
         }
-         // If user, continue
+         // Jika pengguna, lanjutkan
         return $request;
     }
 
-    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
-    {
-        // No action needed after
-    }
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null){}
 }

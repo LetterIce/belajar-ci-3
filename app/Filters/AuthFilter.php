@@ -10,18 +10,15 @@ class AuthFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        // Check if user is logged in
+        // Periksa apakah pengguna sudah login
         if (!session()->get('isLoggedIn')) {
-            // If not logged in, redirect to login page
+            // Jika belum login, alihkan ke halaman login
             session()->setFlashdata('error', 'You must be logged in to access this page.');
             return redirect()->to('/');
         }
-        // If logged in, continue with the request
+        // Jika sudah login, lanjutkan dengan permintaan
         return $request;
     }
 
-    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
-    {
-        // No action needed after the controller executes
-    }
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null){}
 }
